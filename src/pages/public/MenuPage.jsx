@@ -1,6 +1,6 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { CalendarCheck, Sparkles } from "lucide-react";
+import { CalendarCheck, Coffee, Sparkles } from "lucide-react";
 
 import { useShopMenu } from "../../hooks/useShopMenu";
 
@@ -36,6 +36,20 @@ function getHashId(hash = "") {
   }
 }
 
+function scrollToElementById(hashId) {
+  const target = document.getElementById(hashId);
+
+  if (!target) return;
+
+  const headerOffset = window.innerWidth < 640 ? 78 : 92;
+  const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+
+  window.scrollTo({
+    top: Math.max(top, 0),
+    behavior: "smooth",
+  });
+}
+
 export default function MenuPage() {
   const { shopSlug } = useParams();
   const location = useLocation();
@@ -64,15 +78,8 @@ export default function MenuPage() {
     if (!hashId) return;
 
     const timer = window.setTimeout(() => {
-      const target = document.getElementById(hashId);
-
-      if (target) {
-        target.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    }, 180);
+      scrollToElementById(hashId);
+    }, 220);
 
     return () => window.clearTimeout(timer);
   }, [location.hash, loading, shop, promotions.length, items.length]);
@@ -160,56 +167,38 @@ export default function MenuPage() {
 
       <HeroBanner shop={shop} totalItems={items.length} />
 
-      <div className="relative z-20 -mt-5">
-        <QuickActions shop={shop} />
-        <ToppingSection shop={shop} />
-       </div>
+      <section className="relative z-20 -mt-4 px-2 sm:-mt-5 sm:px-4 lg:px-8">
+        <div className="mx-auto max-w-7xl space-y-3 sm:space-y-4">
+          <QuickActions shop={shop} />
+          <ToppingSection shop={shop} />
+        </div>
+      </section>
 
       <ReservationCallout shop={shop} onOpen={() => setReservationOpen(true)} />
 
-      <PromotionStrip
-        promotions={promotions}
-        onOpenPromotion={setSelectedPromotion}
-      />
+      {promotions.length > 0 && (
+        <PromotionStrip
+          promotions={promotions}
+          onOpenPromotion={setSelectedPromotion}
+        />
+      )}
 
-      {shouldShowFeatured && (
+      {shouldShowFeatured && featuredItems.length > 0 && (
         <FeaturedProducts items={featuredItems} shop={shop} />
       )}
 
       <section
         id="menu"
-        className="mx-auto max-w-7xl scroll-mt-24 px-3 pb-10 pt-5 sm:px-6 sm:pb-14 sm:pt-8 lg:px-8"
+        className="mx-auto max-w-7xl scroll-mt-24 px-2 pb-8 pt-4 sm:px-6 sm:pb-14 sm:pt-8 lg:px-8"
       >
-        <div className="overflow-hidden rounded-[30px] border border-[#dbe0ad] bg-white/78 p-3 shadow-[0_24px_80px_rgba(41,79,49,0.10)] backdrop-blur-xl sm:p-5 lg:p-6">
-          <div className="mb-5 grid gap-4 border-b border-[#eef0cf] pb-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-            <div className="min-w-0">
-              <p className="inline-flex items-center gap-2 rounded-full bg-[#e7eac3] px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.16em] text-[#294f31]">
-                <Sparkles size={14} />
-                Menu Home Coffee
-              </p>
+        <div className="overflow-hidden rounded-[22px] border border-[#dbe0ad] bg-white/88 p-2.5 shadow-[0_20px_60px_rgba(41,79,49,0.10)] backdrop-blur-xl sm:rounded-[30px] sm:p-5 lg:p-6">
+          <MenuIntro
+            activeCategoryName={activeCategoryName}
+            filteredCount={filteredItems.length}
+            totalCount={items.length}
+          />
 
-              <h2 className="mt-3 text-3xl font-black tracking-[-0.04em] text-[#294f31] sm:text-4xl lg:text-5xl">
-                {activeCategoryName}
-              </h2>
-
-              <p className="mt-2 text-sm font-semibold leading-6 text-[#647343]">
-                Đang hiển thị{" "}
-                <span className="font-black text-[#294f31]">
-                  {filteredItems.length}
-                </span>
-                /{items.length} sản phẩm.
-              </p>
-            </div>
-
-            <div className="rounded-3xl bg-[#294f31] p-4 text-white shadow-sm">
-              <p className="text-3xl font-black text-white">{items.length}</p>
-              <p className="mt-0.5 text-xs font-black uppercase tracking-[0.14em] text-white/70">
-                sản phẩm
-              </p>
-            </div>
-          </div>
-
-          <div className="grid gap-4 lg:grid-cols-[270px_minmax(0,1fr)]">
+          <div className="grid gap-3 sm:gap-4 lg:grid-cols-[270px_minmax(0,1fr)]">
             <CategorySidebar
               categories={visibleCategories}
               activeCategory={activeCategory}
@@ -229,7 +218,7 @@ export default function MenuPage() {
                 setActiveCategory={setActiveCategory}
               />
 
-              <div className="mt-4 sm:mt-5">
+              <div className="mt-3 sm:mt-5">
                 <ProductGrid
                   items={filteredItems}
                   shop={shop}
@@ -261,17 +250,78 @@ export default function MenuPage() {
   );
 }
 
+function MenuIntro({ activeCategoryName, filteredCount, totalCount }) {
+  return (
+    <div className="mb-4 border-b border-[#eef0cf] pb-4 sm:mb-5 sm:pb-5">
+      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+        <div className="min-w-0">
+          <p className="inline-flex max-w-full items-center gap-2 rounded-full bg-[#e7eac3] px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.13em] text-[#294f31] sm:text-[11px] sm:tracking-[0.16em]">
+            <Sparkles size={13} className="shrink-0 sm:size-[14px]" />
+            <span className="truncate">Menu Home Coffee</span>
+          </p>
+
+          <h2 className="mt-3 break-words text-[28px] font-black leading-[1.02] tracking-[-0.045em] text-[#294f31] sm:text-4xl lg:text-5xl">
+            {activeCategoryName}
+          </h2>
+
+          <p className="mt-2 text-sm font-semibold leading-6 text-[#647343]">
+            Đang hiển thị{" "}
+            <span className="font-black text-[#294f31]">{filteredCount}</span>
+            /{totalCount} sản phẩm.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 lg:w-[260px]">
+          <MiniStatCard label="Đang xem" value={filteredCount} />
+          <MiniStatCard label="Tổng món" value={totalCount} dark />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MiniStatCard({ label, value, dark = false }) {
+  return (
+    <div
+      className={[
+        "min-w-0 rounded-[18px] p-3 shadow-sm sm:p-4",
+        dark
+          ? "bg-[#294f31] text-white"
+          : "border border-[#dbe0ad] bg-[#f7f8ec] text-[#294f31]",
+      ].join(" ")}
+    >
+      <p
+        className={[
+          "text-2xl font-black leading-none sm:text-3xl",
+          dark ? "text-white" : "text-[#294f31]",
+        ].join(" ")}
+      >
+        {value}
+      </p>
+
+      <p
+        className={[
+          "mt-1 truncate text-[10px] font-black uppercase tracking-[0.12em]",
+          dark ? "text-white/70" : "text-[#647343]",
+        ].join(" ")}
+      >
+        {label}
+      </p>
+    </div>
+  );
+}
+
 function ReservationCallout({ shop, onOpen }) {
   return (
-    <section className="mx-auto max-w-7xl px-3 py-5 sm:px-6 lg:px-8">
-      <div className="grid overflow-hidden rounded-[28px] border border-[#dbe0ad] bg-[#294f31] shadow-[0_24px_70px_rgba(41,79,49,0.15)] lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-        <div className="p-5 sm:p-7">
-          <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.16em] text-[#e7eac3]">
+    <section className="mx-auto max-w-7xl px-2 py-4 sm:px-6 sm:py-5 lg:px-8">
+      <div className="overflow-hidden rounded-[22px] border border-[#dbe0ad] bg-[#294f31] shadow-[0_18px_50px_rgba(41,79,49,0.14)] sm:rounded-[28px] lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+        <div className="p-4 sm:p-7">
+          <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.13em] text-[#e7eac3] sm:text-[11px] sm:tracking-[0.16em]">
             <CalendarCheck size={14} />
             Đặt bàn nhanh
           </p>
 
-          <h2 className="mt-3 text-2xl font-black tracking-[-0.03em] text-white sm:text-3xl">
+          <h2 className="mt-3 text-xl font-black tracking-[-0.03em] text-white sm:text-3xl">
             Ghé {shop?.name || "Home Coffee"} hôm nay?
           </h2>
 
@@ -280,11 +330,11 @@ function ReservationCallout({ shop, onOpen }) {
           </p>
         </div>
 
-        <div className="p-5 pt-0 sm:p-7 lg:pt-7">
+        <div className="px-4 pb-4 sm:px-7 sm:pb-7 lg:p-7">
           <button
             type="button"
             onClick={onOpen}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#e7eac3] px-6 py-4 text-sm font-black text-[#294f31] shadow-sm transition hover:bg-[#dfe3ae] lg:w-auto"
+            className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#e7eac3] px-5 text-sm font-black text-[#294f31] shadow-sm transition hover:bg-[#dfe3ae] active:scale-[0.98] lg:w-auto lg:px-6"
           >
             <CalendarCheck size={18} />
             Đặt bàn ngay
@@ -294,4 +344,3 @@ function ReservationCallout({ shop, onOpen }) {
     </section>
   );
 }
-
