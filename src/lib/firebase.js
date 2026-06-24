@@ -33,40 +33,17 @@ const firebaseConfig = {
     import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || undefined,
 };
 
-function getUserAgent() {
-  if (typeof navigator === "undefined") return "";
-  return navigator.userAgent || "";
-}
-
-function isInAppBrowser() {
-  const userAgent = getUserAgent();
-
-  return /FBAN|FBAV|FB_IAB|Messenger|Instagram|Line|Zalo|MicroMessenger|wv/i.test(
-    userAgent
-  );
-}
-
 export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
 function createFirestore() {
-  const inAppBrowser = isInAppBrowser();
-
   try {
-    return initializeFirestore(
-      app,
-      inAppBrowser
-        ? {
-            experimentalForceLongPolling: true,
-          }
-        : {
-            experimentalAutoDetectLongPolling: true,
-          }
-    );
+    return initializeFirestore(app, {
+      experimentalForceLongPolling: true,
+      useFetchStreams: false,
+      ignoreUndefinedProperties: true,
+    });
   } catch (error) {
-    if (import.meta.env.DEV) {
-      console.warn("[Firebase] Firestore fallback:", error);
-    }
-
+    console.warn("[Firebase] initializeFirestore failed, fallback:", error);
     return getFirestore(app);
   }
 }
@@ -83,20 +60,4 @@ export const analyticsPromise =
           if (!supported) return null;
           return getAnalytics(app);
         })
-        .catch((error) => {
-          if (import.meta.env.DEV) {
-            console.warn("[Firebase] Analytics disabled:", error);
-          }
-
-          return null;
-        });
-
-export function getFirebaseDebugInfo() {
-  return {
-    projectId: firebaseConfig.projectId,
-    authDomain: firebaseConfig.authDomain,
-    storageBucket: firebaseConfig.storageBucket,
-    inAppBrowser: isInAppBrowser(),
-    userAgent: getUserAgent(),
-  };
-}
+        .catch(() => null);
