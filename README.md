@@ -6,7 +6,7 @@
 
 ### Website menu online dành riêng cho quán **Home Coffee**
 
-Khách quét QR hoặc bấm link là xem menu ngay. Admin có thể quản lý món, danh mục, topping, khuyến mãi, bản tin và thông tin quán trực tiếp trên dashboard — không cần chỉnh code.
+Khách hàng quét QR hoặc bấm link là xem menu ngay. Admin có thể quản lý toàn bộ nội dung như món, danh mục, topping, khuyến mãi, bản tin, hình ảnh và thông tin quán trực tiếp trên dashboard.
 
 <p>
   <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React" />
@@ -15,6 +15,7 @@ Khách quét QR hoặc bấm link là xem menu ngay. Admin có thể quản lý 
   <img src="https://img.shields.io/badge/Cloudinary-Media%20Upload-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white" alt="Cloudinary" />
   <img src="https://img.shields.io/badge/TailwindCSS-v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="TailwindCSS" />
   <img src="https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
+  <img src="https://img.shields.io/badge/Domain-Hostinger-673DE6?style=for-the-badge" alt="Hostinger" />
 </p>
 
 <p>
@@ -23,16 +24,23 @@ Khách quét QR hoặc bấm link là xem menu ngay. Admin có thể quản lý 
 </p>
 
 <p>
-  <strong>Demo:</strong>
-  <a href="https://www.home-coffee-menue.website/home-coffee">home-coffee-menue.website/home-coffee</a>
+  <strong>Production Domain:</strong>
+  <a href="https://homecoffee.shop">homecoffee.shop</a>
+</p>
+
+<p>
+  <strong>Vercel URL:</strong>
+  <a href="https://home-coffee-zeta.vercel.app">home-coffee-zeta.vercel.app</a>
 </p>
 
 [Tổng quan](#-tổng-quan) •
 [Tính năng](#-tính-năng-chính) •
 [Công nghệ](#️-công-nghệ-sử-dụng) •
-[Cấu trúc](#-cấu-trúc-thư-mục) •
 [Cài đặt](#-cài-đặt-dự-án) •
-[Deploy](#-deploy-vercel)
+[Firebase](#-firebase-setup) •
+[Cloudinary](#️-cloudinary-setup) •
+[Vercel](#-deploy-vercel) •
+[Hostinger](#-domain-hostinger--dns)
 
 </div>
 
@@ -40,18 +48,20 @@ Khách quét QR hoặc bấm link là xem menu ngay. Admin có thể quản lý 
 
 ## 📌 Tổng quan
 
-**Home Coffee Menu** là website menu online dành cho quán cafe **Home Coffee**. Hệ thống giúp khách hàng xem menu nhanh qua QR Code hoặc đường link trực tiếp, đồng thời giúp chủ quán quản lý toàn bộ nội dung trên trang admin.
+**Home Coffee Menu** là website menu online dành cho quán cafe **Home Coffee**. Hệ thống giúp khách hàng xem menu nhanh qua QR Code hoặc đường link trực tiếp, đồng thời giúp chủ quán quản lý toàn bộ nội dung bằng một trang admin riêng.
 
-Dự án tập trung vào trải nghiệm thực tế cho quán cafe:
+Dự án được thiết kế theo hướng thực tế cho quán cafe nhỏ:
 
-* Khách hàng chỉ cần mở link là xem được menu.
-* Không cần đăng nhập khi xem menu.
+* Khách hàng không cần đăng nhập.
+* Khách mở link hoặc quét QR là xem menu.
 * Admin đăng nhập để quản lý dữ liệu.
-* Nội dung cập nhật realtime thông qua Firebase Firestore.
-* Ảnh và video được upload qua Cloudinary.
-* Giao diện tối ưu cho điện thoại, tablet và desktop.
+* Dữ liệu được lưu trên Firebase Firestore.
+* Hình ảnh và video được upload lên Cloudinary.
+* Website được deploy bằng Vercel.
+* Domain được mua và quản lý DNS tại Hostinger.
+* Giao diện tối ưu cho mobile, tablet và desktop.
 
-> Dự án hiện ưu tiên cho mô hình **1 quán cafe**: Home Coffee. Tuy nhiên cấu trúc dữ liệu vẫn có thể mở rộng thành multi-shop trong tương lai.
+Dự án hiện ưu tiên cho mô hình **một quán cafe duy nhất** là **Home Coffee**, nhưng cấu trúc dữ liệu vẫn có thể mở rộng thành multi-shop trong tương lai.
 
 <br />
 
@@ -66,41 +76,44 @@ Dự án tập trung vào trải nghiệm thực tế cho quán cafe:
 <tr valign="top">
 <td>
 
-### Menu công khai
+### Public Menu
 
 * Xem menu theo danh mục.
 * Tìm kiếm món nhanh.
 * Lọc món theo category.
 * Xem món nổi bật.
-* Hiển thị trạng thái còn bán / tạm hết.
 * Xem chi tiết món trong modal.
-* Bấm vào ảnh để xem lớn hơn.
-* Hỗ trợ danh sách size / giá nếu món có nhiều size.
+* Bấm vào ảnh để xem lớn.
+* Hiển thị trạng thái còn bán / tạm hết.
+* Hỗ trợ nhiều size và nhiều mức giá.
 * Hiển thị topping chung của quán.
 * Xem khuyến mãi bằng ảnh hoặc video.
 * Xem bản tin / bài viết của quán.
 * Truy cập Facebook cửa hàng.
-* Giao diện mobile-first, dễ xem trên điện thoại.
+* Responsive tốt trên điện thoại.
 
 </td>
 
 <td>
 
-### Dashboard quản trị
+### Admin Dashboard
 
-* Đăng nhập admin bằng Firebase Authentication.
-* Xem tổng quan số lượng danh mục, món, khuyến mãi, bài viết.
-* Quản lý danh mục menu.
-* Quản lý món ăn / đồ uống.
-* Thêm món có ảnh, mô tả, giá, size, tag.
-* Tạo nhanh danh mục ngay trong form thêm món.
+* Đăng nhập bằng Firebase Authentication.
+* Xem dashboard tổng quan.
+* Quản lý danh mục món.
+* Quản lý sản phẩm / đồ uống.
+* Tạo nhanh danh mục khi thêm món.
+* Upload ảnh sản phẩm.
+* Nhập ảnh bằng URL.
+* Quản lý size và giá theo VNĐ.
 * Bật / tắt món còn bán.
 * Đánh dấu món nổi bật.
-* Quản lý danh sách topping chung.
-* Quản lý khuyến mãi với nhiều ảnh / video.
-* Quản lý bản tin, bài viết, ghim bài, ẩn / hiện bài.
-* Cài đặt thông tin quán, logo, ảnh bìa, Facebook.
-* Bật / tắt public menu.
+* Quản lý topping chung.
+* Quản lý khuyến mãi.
+* Quản lý bản tin / blog.
+* Upload ảnh / video bài viết.
+* Ghim bài, ẩn / hiện bài viết.
+* Cài đặt logo, ảnh bìa, Facebook và trạng thái public.
 
 </td>
 </tr>
@@ -108,11 +121,11 @@ Dự án tập trung vào trải nghiệm thực tế cho quán cafe:
 
 <br />
 
-## 🧩 Các module chính
+## 🧩 Module chính
 
 ### 1. Public Menu
 
-Trang menu dành cho khách hàng, truy cập theo slug của quán.
+Route public dùng để khách xem menu:
 
 ```txt
 /:shopSlug
@@ -124,12 +137,19 @@ Ví dụ:
 /home-coffee
 ```
 
-Chức năng chính:
+Hoặc khi đã cấu hình redirect trang chủ:
 
+```txt
+https://homecoffee.shop
+```
+
+Chức năng:
+
+* Header thương hiệu.
 * Hero giới thiệu quán.
-* Danh mục món.
-* Danh sách sản phẩm.
-* Modal xem chi tiết sản phẩm.
+* Danh mục sản phẩm.
+* Danh sách món.
+* Modal chi tiết món.
 * Topping chung.
 * Khuyến mãi.
 * Bản tin mới.
@@ -137,16 +157,23 @@ Chức năng chính:
 
 <br />
 
-### 2. Admin Dashboard
-
-Trang quản trị nội bộ cho chủ quán.
+### 2. Admin Login
 
 ```txt
 /admin/login
+```
+
+Admin đăng nhập bằng Firebase Authentication. Sau khi đăng nhập thành công, hệ thống kiểm tra document trong collection `admins`.
+
+<br />
+
+### 3. Dashboard
+
+```txt
 /admin/dashboard
 ```
 
-Admin có thể xem nhanh:
+Hiển thị tổng quan:
 
 * Tổng số danh mục.
 * Tổng số món.
@@ -157,7 +184,7 @@ Admin có thể xem nhanh:
 
 <br />
 
-### 3. Quản lý menu
+### 4. Quản lý menu
 
 ```txt
 /admin/menu
@@ -165,28 +192,28 @@ Admin có thể xem nhanh:
 
 Chức năng:
 
-* Thêm, sửa, xóa danh mục.
+* Thêm / sửa / xóa danh mục.
 * Ẩn / hiện danh mục.
-* Thêm, sửa, xóa sản phẩm.
-* Upload ảnh sản phẩm.
-* Nhập ảnh bằng URL.
-* Tạo nhiều size cho món.
-* Nhập giá theo định dạng VNĐ.
-* Tạo nhanh category khi đang thêm món.
+* Thêm / sửa / xóa sản phẩm.
+* Upload ảnh sản phẩm lên Cloudinary.
+* Thêm ảnh bằng URL.
+* Nhập giá dạng VNĐ.
+* Quản lý size như S / M / L hoặc 500ml / 700ml.
+* Tạo nhanh category trong form thêm món.
 * Bật / tắt trạng thái còn bán.
-* Đánh dấu món nổi bật.
+* Đánh dấu best seller / nổi bật.
 
 <br />
 
-### 4. Quản lý topping
+### 5. Quản lý topping
 
 ```txt
 /admin/toppings
 ```
 
-Topping được thiết kế theo dạng **danh sách chung của quán**, phù hợp với mô hình menu chỉ để khách xem, chưa đặt hàng online.
+Topping được thiết kế dạng **danh sách chung của quán**, phù hợp với menu chỉ để khách xem, chưa đặt hàng online.
 
-Ví dụ dữ liệu:
+Ví dụ dữ liệu topping:
 
 ```js
 toppings: [
@@ -205,9 +232,21 @@ toppings: [
 ]
 ```
 
+Topping được lưu trực tiếp trong document:
+
+```txt
+shops/home-coffee
+```
+
+Field:
+
+```txt
+toppings[]
+```
+
 <br />
 
-### 5. Quản lý khuyến mãi
+### 6. Quản lý khuyến mãi
 
 ```txt
 /admin/promotions
@@ -219,12 +258,12 @@ Chức năng:
 * Upload nhiều ảnh / video.
 * Dán link media.
 * Bật / tắt hiển thị.
-* Sắp xếp thứ tự media.
-* Hiển thị popup khuyến mãi ngoài trang khách.
+* Sắp xếp thứ tự.
+* Hiển thị khuyến mãi ngoài trang khách.
 
 <br />
 
-### 6. Quản lý bản tin
+### 7. Quản lý bản tin
 
 ```txt
 /admin/posts
@@ -238,17 +277,23 @@ Chức năng:
 * Bật / tắt public.
 * Ghim bài viết.
 * Click ảnh để xem full màn hình.
-* Hỗ trợ trang blog công khai.
+* Hỗ trợ trang blog public.
 
-Public route:
+Public blog route:
 
 ```txt
 /:shopSlug/blog
 ```
 
+Ví dụ:
+
+```txt
+/home-coffee/blog
+```
+
 <br />
 
-### 7. Cài đặt quán
+### 8. Cài đặt quán
 
 ```txt
 /admin/settings
@@ -263,23 +308,25 @@ Chức năng:
 * Upload logo.
 * Upload ảnh bìa.
 * Bật / tắt menu public.
-* Preview nhanh giao diện hiển thị ngoài trang khách.
+* Preview nhanh thông tin hiển thị ngoài trang khách.
 
 <br />
 
 ## 🛠️ Công nghệ sử dụng
 
-| Nhóm            | Công nghệ               |
-| --------------- | ----------------------- |
-| Frontend        | React 19, Vite          |
-| Styling         | Tailwind CSS v4         |
-| Routing         | React Router            |
-| Icons           | Lucide React            |
-| Authentication  | Firebase Authentication |
-| Database        | Cloud Firestore         |
-| Media Upload    | Cloudinary              |
-| Deploy          | Vercel                  |
-| Package Manager | npm                     |
+| Nhóm             | Công nghệ               |
+| ---------------- | ----------------------- |
+| Frontend         | React 19                |
+| Build Tool       | Vite                    |
+| Styling          | Tailwind CSS v4         |
+| Routing          | React Router            |
+| Icons            | Lucide React            |
+| Authentication   | Firebase Authentication |
+| Database         | Cloud Firestore         |
+| Media Upload     | Cloudinary              |
+| Hosting / Deploy | Vercel                  |
+| Domain Provider  | Hostinger               |
+| Package Manager  | npm                     |
 
 <br />
 
@@ -305,6 +352,8 @@ src/
 │           ├── FeaturedProducts.jsx
 │           ├── HeroBanner.jsx
 │           ├── MenuHeader.jsx
+│           ├── MenuStates.jsx
+│           ├── MenuToolbar.jsx
 │           ├── ProductGrid.jsx
 │           ├── PromotionModal.jsx
 │           ├── PromotionStrip.jsx
@@ -356,17 +405,18 @@ src/
 
 ## 🗺️ Routes
 
-| Route               | Mô tả                   |
-| ------------------- | ----------------------- |
-| `/admin/login`      | Đăng nhập admin         |
-| `/admin/dashboard`  | Dashboard tổng quan     |
-| `/admin/menu`       | Quản lý danh mục và món |
-| `/admin/toppings`   | Quản lý topping chung   |
-| `/admin/promotions` | Quản lý khuyến mãi      |
-| `/admin/posts`      | Quản lý bản tin / blog  |
-| `/admin/settings`   | Cài đặt thông tin quán  |
-| `/:shopSlug`        | Trang menu công khai    |
-| `/:shopSlug/blog`   | Trang blog công khai    |
+| Route               | Mô tả                             |
+| ------------------- | --------------------------------- |
+| `/`                 | Có thể redirect về `/home-coffee` |
+| `/admin/login`      | Đăng nhập admin                   |
+| `/admin/dashboard`  | Dashboard tổng quan               |
+| `/admin/menu`       | Quản lý danh mục và món           |
+| `/admin/toppings`   | Quản lý topping chung             |
+| `/admin/promotions` | Quản lý khuyến mãi                |
+| `/admin/posts`      | Quản lý bản tin / blog            |
+| `/admin/settings`   | Cài đặt thông tin quán            |
+| `/:shopSlug`        | Trang menu công khai              |
+| `/:shopSlug/blog`   | Trang blog công khai              |
 
 <br />
 
@@ -465,7 +515,23 @@ VITE_CLOUDINARY_UPLOAD_PRESET=your_unsigned_upload_preset
 VITE_CLOUDINARY_FOLDER=home-coffee
 ```
 
-> Không commit `.env.local` lên GitHub. File này phải nằm trong `.gitignore`.
+Lưu ý:
+
+```txt
+Không commit .env.local lên GitHub.
+```
+
+File `.gitignore` nên có:
+
+```gitignore
+node_modules
+dist
+.env
+.env.local
+.env.*.local
+.DS_Store
+source-code.txt
+```
 
 ### 4. Chạy local
 
@@ -473,7 +539,7 @@ VITE_CLOUDINARY_FOLDER=home-coffee
 npm run dev
 ```
 
-Mặc định Vite sẽ chạy tại:
+Mặc định Vite chạy tại:
 
 ```txt
 http://localhost:5173
@@ -492,15 +558,43 @@ http://localhost:5173
 
 <br />
 
-## 🔐 Firebase Auth & Admin
+## 🔥 Firebase Setup
 
-Admin được quản lý bằng collection:
+### 1. Firebase Authentication
+
+Bật phương thức đăng nhập bằng Email/Password:
 
 ```txt
+Firebase Console → Authentication → Sign-in method → Email/Password
+```
+
+### 2. Firestore Database
+
+Tạo Firestore Database và dùng cấu trúc:
+
+```txt
+shops/home-coffee
 admins/{uid}
 ```
 
-Ví dụ document:
+Ví dụ document shop:
+
+```js
+{
+  name: "Home Coffee",
+  slug: "home-coffee",
+  description: "Home Coffee - không gian cà phê ấm cúng, menu đồ uống đa dạng.",
+  facebookUrl: "https://www.facebook.com/profile.php?id=100089933292350",
+  logoUrl: "/logohome.png",
+  coverUrl: "",
+  isPublished: true,
+  theme: "light",
+  ownerUid: "UID_TAI_KHOAN_ADMIN",
+  toppings: []
+}
+```
+
+Ví dụ document admin:
 
 ```js
 {
@@ -510,45 +604,62 @@ Ví dụ document:
 }
 ```
 
-Luồng đăng nhập:
+### 3. Authorized Domains
 
-1. Tạo tài khoản admin trong Firebase Authentication.
-2. Lấy UID của tài khoản.
-3. Tạo document `admins/{uid}` trong Firestore.
-4. Admin đăng nhập tại `/admin/login`.
+Khi dùng domain thật, thêm domain vào Firebase Auth:
+
+```txt
+Firebase Console → Authentication → Settings → Authorized domains
+```
+
+Thêm:
+
+```txt
+homecoffee.shop
+www.homecoffee.shop
+```
+
+Nếu không thêm, admin login trên domain mới có thể bị lỗi Firebase Auth.
 
 <br />
 
 ## 🔒 Firestore Security Rules
 
-Gợi ý nguyên tắc bảo mật:
+Nguyên tắc bảo mật:
 
 * Khách chỉ đọc được dữ liệu khi shop `isPublished = true`.
 * Admin hoặc owner mới được tạo, sửa, xóa dữ liệu.
 * Không cho client tự tạo admin.
 * Không cho user lạ tự tạo shop.
-* Bản tin ẩn không nên cho public đọc.
-* Món tạm tắt không nên cho public đọc.
-* Reservation có thể tắt nếu quán không dùng đặt bàn.
+* Bản tin ẩn không cho public đọc.
+* Món tạm tắt không cho public đọc.
+* Topping nằm trong document `shops/{shopId}`, không cần subcollection riêng.
 
 <br />
 
-## ☁️ Cloudinary Upload
+## ☁️ Cloudinary Setup
 
 Project dùng Cloudinary để upload ảnh / video từ admin.
 
-Cấu hình cần có:
+Cần tạo unsigned upload preset trong Cloudinary:
+
+```txt
+Settings → Upload → Upload presets
+```
+
+Cấu hình gợi ý:
+
+```txt
+Signing mode: Unsigned
+Folder: home-coffee
+```
+
+Biến môi trường:
 
 ```env
 VITE_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 VITE_CLOUDINARY_UPLOAD_PRESET=your_unsigned_upload_preset
 VITE_CLOUDINARY_FOLDER=home-coffee
-```
-
-Upload preset trên Cloudinary cần để dạng:
-
-```txt
-Signing mode: Unsigned
 ```
 
 Không đưa `API Secret` của Cloudinary vào frontend.
@@ -565,37 +676,42 @@ git commit -m "Initial Home Coffee project"
 git push -u origin main
 ```
 
-### 2. Import project vào Vercel
-
-* Vào Vercel.
-* Chọn **Add New Project**.
-* Import repo `Home-Coffee`.
-* Framework Preset: **Vite**.
-* Build Command:
-
-```bash
-npm run build
-```
-
-* Output Directory:
+Repository:
 
 ```txt
-dist
+https://github.com/khoale-dev-code/Home-Coffee
 ```
 
-### 3. Thêm Environment Variables trên Vercel
+### 2. Import project vào Vercel
 
-Thêm toàn bộ biến trong `.env.local` vào phần:
+Vào Vercel:
+
+```txt
+Add New Project → Import Git Repository → Home-Coffee
+```
+
+Cấu hình:
+
+| Mục              | Giá trị         |
+| ---------------- | --------------- |
+| Framework Preset | Vite            |
+| Build Command    | `npm run build` |
+| Output Directory | `dist`          |
+| Install Command  | `npm install`   |
+
+### 3. Thêm Environment Variables
+
+Trong Vercel:
 
 ```txt
 Project Settings → Environment Variables
 ```
 
+Thêm đầy đủ các biến từ `.env.local`.
+
 ### 4. SPA fallback
 
-Dự án có file `vercel.json` để khi refresh các route con như `/admin/dashboard`, `/home-coffee/blog` không bị lỗi 404.
-
-Ví dụ:
+Dự án nên có file `vercel.json` để refresh route con không bị lỗi 404:
 
 ```json
 {
@@ -610,20 +726,162 @@ Ví dụ:
 
 <br />
 
-## ✅ Checklist trước khi deploy
+## 🌐 Domain Hostinger & DNS
 
+Domain production:
+
+```txt
+homecoffee.shop
+www.homecoffee.shop
+```
+
+Domain được mua tại Hostinger và trỏ về project Vercel.
+
+### 1. Nameserver Hostinger
+
+Domain đang dùng nameserver của Hostinger:
+
+```txt
+aurora.dns-parking.com
+nebula.dns-parking.com
+```
+
+Nếu đang quản lý DNS trong Hostinger, giữ nguyên nameserver này.
+
+### 2. Add domain trong Vercel
+
+Trong Vercel:
+
+```txt
+Project → Settings → Domains
+```
+
+Thêm:
+
+```txt
+homecoffee.shop
+www.homecoffee.shop
+```
+
+Vercel sẽ đưa ra DNS record cần cấu hình.
+
+### 3. DNS Records tại Hostinger
+
+Trong Hostinger:
+
+```txt
+Domains → homecoffee.shop → DNS / DNS Records
+```
+
+Cấu hình các record chính:
+
+| Type  | Name  | Value                                 | Mục đích                 |
+| ----- | ----- | ------------------------------------- | ------------------------ |
+| A     | `@`   | `216.198.79.1`                        | Trỏ domain gốc về Vercel |
+| CNAME | `www` | `06676c1fb5a7b96d.vercel-dns-017.com` | Trỏ www về Vercel        |
+
+Các record email của Hostinger như `MX`, `TXT`, `_domainkey`, `autodiscover`, `autoconfig` nên giữ nguyên nếu dùng email theo domain.
+
+### 4. Tránh record xung đột
+
+Không nên có các record trùng sau:
+
+```txt
+A      @      IP khác
+AAAA   @      bất kỳ
+A      www    IP bất kỳ
+CNAME  www    giá trị khác
+```
+
+### 5. Kiểm tra DNS bằng PowerShell
+
+Kiểm tra trực tiếp nameserver Hostinger:
+
+```powershell
+nslookup -type=NS homecoffee.shop aurora.dns-parking.com
+```
+
+```powershell
+nslookup -type=A homecoffee.shop aurora.dns-parking.com
+```
+
+```powershell
+nslookup -type=CNAME www.homecoffee.shop aurora.dns-parking.com
+```
+
+Kết quả đúng:
+
+```txt
+homecoffee.shop nameserver = aurora.dns-parking.com
+homecoffee.shop nameserver = nebula.dns-parking.com
+homecoffee.shop A = 216.198.79.1
+www.homecoffee.shop CNAME = 06676c1fb5a7b96d.vercel-dns-017.com
+```
+
+Kiểm tra DNS public:
+
+```powershell
+nslookup -type=NS homecoffee.shop 1.1.1.1
+```
+
+```powershell
+nslookup -type=A homecoffee.shop 1.1.1.1
+```
+
+```powershell
+nslookup -type=CNAME www.homecoffee.shop 1.1.1.1
+```
+
+Nếu DNS public vẫn báo `Non-existent domain` nhưng query trực tiếp `aurora.dns-parking.com` ra đúng, nghĩa là DNS Hostinger đã đúng nhưng domain chưa propagate ra public DNS. Khi đó chờ thêm vài giờ rồi kiểm tra lại.
+
+### 6. Refresh domain trong Vercel
+
+Sau khi DNS public ra đúng, quay lại:
+
+```txt
+Vercel → Project → Settings → Domains
+```
+
+Bấm:
+
+```txt
+Refresh
+```
+
+cho cả:
+
+```txt
+homecoffee.shop
+www.homecoffee.shop
+```
+
+Khi cấu hình đúng, Vercel sẽ hiển thị:
+
+```txt
+Valid Configuration
+```
+
+<br />
+
+## ✅ Checklist trước khi deploy production
+
+* [ ] Đã push code lên GitHub repo `Home-Coffee`.
+* [ ] Đã import project vào Vercel.
+* [ ] Đã thêm biến môi trường trên Vercel.
 * [ ] Đã tạo Firebase project.
 * [ ] Đã bật Firebase Authentication.
 * [ ] Đã tạo Firestore Database.
 * [ ] Đã tạo document `shops/home-coffee`.
 * [ ] Đã tạo document `admins/{uid}`.
-* [ ] Đã cấu hình Firestore Rules.
+* [ ] Đã thêm `homecoffee.shop` vào Firebase Authorized Domains.
+* [ ] Đã thêm `www.homecoffee.shop` vào Firebase Authorized Domains.
 * [ ] Đã tạo Cloudinary unsigned upload preset.
-* [ ] Đã thêm `.env.local` ở local.
-* [ ] Đã thêm env trên Vercel.
-* [ ] Đã đảm bảo `.env.local` không bị commit lên GitHub.
-* [ ] Đã kiểm tra `public/logohome.png` tồn tại.
-* [ ] Đã chạy `npm run build` trước khi deploy.
+* [ ] Đã thêm domain `homecoffee.shop` vào Vercel.
+* [ ] Đã thêm domain `www.homecoffee.shop` vào Vercel.
+* [ ] Đã cấu hình DNS Hostinger.
+* [ ] Đã chạy `npm run build` thành công.
+* [ ] Đã kiểm tra login admin.
+* [ ] Đã kiểm tra public menu trên mobile.
 
 <br />
 
@@ -639,6 +897,8 @@ Ví dụ:
 * [x] Upload ảnh / video qua Cloudinary.
 * [x] Cài đặt thông tin quán.
 * [x] Responsive mobile / tablet / desktop.
+* [x] Deploy Vercel.
+* [x] Kết nối domain Hostinger.
 * [ ] QR Code tự động cho menu.
 * [ ] Thống kê lượt xem menu.
 * [ ] Tùy chỉnh theme màu trong admin.
@@ -662,10 +922,12 @@ Ví dụ:
 
 <div align="center">
 
-<strong>Home Coffee Menu</strong> — simple, clean and practical online menu for a real coffee shop.
+<strong>Home Coffee Menu</strong>
+
+Simple, clean and practical online menu for a real coffee shop.
 
 <br />
 
-Built with ❤️ using React, Firebase, Cloudinary and Vercel.
+Built with ❤️ using React, Firebase, Cloudinary, Vercel and Hostinger.
 
 </div>
