@@ -222,13 +222,32 @@ export default function BlogPage() {
       <div style={{ paddingTop: 56 /* offset MenuHeader height */ }}>
         <ProfileHeader shop={shop} postCount={activePosts.length} />
       </div>
+{/* Grid — tightly bounded to 935px like Instagram */}
+<section
+  style={{
+    background: "#fff",
+    paddingBottom: "clamp(64px, 8vw, 110px)",
+  }}
+>
+  <div
+    style={{
+      maxWidth: 935,
+      margin: "0 auto",
+      padding: "0 16px",
+    }}
+  >
+    <BlogSection posts={activePosts} shop={shop} />
+  </div>
+</section>
 
-      {/* Grid — tightly bounded to 935px like Instagram */}
-      <div style={{ maxWidth: 935, margin: "0 auto" }}>
-        <BlogSection posts={activePosts} shop={shop} />
-      </div>
+<div
+  style={{
+    height: 1,
+    background: "#d9dda9",
+  }}
+/>
 
-      <ShopFooter shop={shop} />
+<ShopFooter shop={shop} />
     </main>
   );
 }
